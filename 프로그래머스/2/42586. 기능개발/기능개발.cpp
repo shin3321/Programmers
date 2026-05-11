@@ -1,37 +1,35 @@
 #include <string>
-#include <vector>
 #include <queue>
 
 using namespace std;
 
 vector<int> solution(vector<int> progresses, vector<int> speeds) {
     vector<int> answer;
-    queue<int> q;
-    
+    queue<int> days;
     for(int i = 0; i < progresses.size(); ++i)
     {
-        int p = 100 - progresses[i];
-        int day = p / speeds[i];
-        if( p % speeds[i] != 0)
+        int progress = 100 - progresses[i];
+        int day = progress/speeds[i];
+        if(progress%speeds[i]!=0)
         {
             ++day;
         }
-        q.push(day);
+        days.push(day);
     }
+    
     int deployDay = 0;
-  
-    while(!q.empty())
+    while(!days.empty())
     {
         int count = 1;
-        deployDay = q.front();
-        q.pop();
-        while(q.front() <= deployDay && !q.empty())
+        deployDay = days.front();
+        days.pop();
+        while(deployDay >= days.front() && !days.empty())
         {
-            q.pop();
-            ++count;         
+            days.pop();
+            ++count;
         }
-        answer.emplace_back(count);        
-    }   
-    
+        answer.emplace_back(count);
+    }
+         
     return answer;
 }
